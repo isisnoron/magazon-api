@@ -31,6 +31,12 @@ class ProdutoService {
         if(!product) throw new Error('Produto não encontrado', { status: 404 })
         return product
     }
+
+    async update(id, productData) {
+        const product = await Produto.findOneAndUpdate({_id: id}, {...productData})
+        return product
+    }
+
 }
 
 export default ProdutoService

@@ -36,6 +36,15 @@ class ProductController {
         return res.json(product)
        
     }
+
+    async update(req, res) {
+        const {id} = req.params
+        const productUpdate = req.body
+        const productService = new ProdutoService()
+        const product = await productService.update(id, productUpdate)
+
+        return res.status(200).json(product)
+    }
 }
 
 export default ProductController
