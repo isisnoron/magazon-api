@@ -11,5 +11,5 @@ app.use(bodyParser.json())
 app.use('/', router)
 
 app.listen(3000, () => {
-    console.log('Executando porta 3000')
+    console.log('Executando na porta 3000...')
 })
