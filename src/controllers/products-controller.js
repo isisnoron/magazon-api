@@ -9,10 +9,10 @@ class ProductController {
     }
 
     async create(produto, res) {
-        try {
+       
             const requiredFields = ['title', 'author', 'description', 'price']
             for(let field of requiredFields) {
-                if (!Object.keys(produto).includes(field) || !produto[field].trim()) {
+                if (!Object.keys(produto).includes(field) || !produto[field]) {
                     return res.status(400).json({
                         error: `Missing ${field} field`
                     })
@@ -22,11 +22,7 @@ class ProductController {
             const response = await produtoService.create(produto)
 
             return res.json(response)
-        } catch(err) {
-            return res.status(err.statusCode).json({
-                error: err.message
-            })
-        }   
+          
     }
 
     async find(req, res) {
@@ -45,6 +41,14 @@ class ProductController {
 
         return res.status(200).json(product)
     }
+
+    async delete(req, res) {
+        const {id} = req.params
+        const produtoService = new ProdutoService()
+        const product = await produtoService.delete(id)
+        return res.json(product)
+    }
+    
 }
 
 export default ProductController

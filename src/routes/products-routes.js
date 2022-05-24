@@ -12,6 +12,9 @@ router.get('/:id', (req, res) => productController.find(req, res))
 router.post('/', (req, res, next) => {
     productController.create(req.body, res)
 })
+
 router.patch('/:id', (req, res, next) => productController.update(req, res) )
+
+router.delete('/:id', (req, res, next) => productController.delete(req, res) )
 
 export default router

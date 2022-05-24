@@ -37,6 +37,10 @@ class ProdutoService {
         return product
     }
 
+    async delete(id) {
+        const product = await Produto.deleteOne({_id: id})
+        return product
+    }
 }
 
 export default ProdutoService
