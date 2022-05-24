@@ -11,9 +11,14 @@ class ClientController {
         return clientService.searchClientByEmail(emailClient)
     }
 
-    searchClientsByName(nameClients, page, limit) {
+    searchClientsByName(nameClients, query) {
         const clientService = new ClientService()
-        return clientService.searchClientsByName(nameClients, page, limit)
+        return clientService.searchClientsByName(nameClients, query)
+    }
+
+    searchClientByWishlist(idWishlist) {
+        const clientService = new ClientService()
+        return clientService.searchClientByWishlist(idWishlist)
     }
 
     searchClients() {
@@ -25,6 +30,18 @@ class ClientController {
         console.log('Cadastrando um novo cliente...', client)
         const clientService = new ClientService()
         return clientService.registerClient(client)
+    }
+
+    updateClient(idClient, client) {
+        console.log('atualizando cliente com id: ', idClient)
+        const clientService = new ClientService()
+        return clientService.updateClient(idClient, client)
+    }
+
+    removeClient(idClient) {
+        console.log('removendo cliente com id: ', idClient)
+        const clientService = new ClientService()
+        return clientService.removeClient(idClient)
     }
 }
 
