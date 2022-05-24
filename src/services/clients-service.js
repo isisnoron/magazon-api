@@ -41,7 +41,6 @@ class ClientService {
                 name: { $regex: new RegExp(params.name), $options: 'i'}
             }, {page, limit}, function (err, result) {})
         }  
-        // return Client.paginate(params, {page, limit}, function (err, result) {})
     }
 
     async searchClientByWishlist(idWishlist) {
@@ -51,10 +50,10 @@ class ClientService {
         // if (idWishlist !== undefined && idWishlist !== null) {
         //     params.Wishlist_id = idWishlist
         // }
+        
         const response = await Wishlist.findById(idWishlist.wishlist_id)
         const client_id = (response.client_id).toString()
 
-        // console.log(typeof (response[0].client_id))
         return Client.find({"_id" : client_id})
     }
 
