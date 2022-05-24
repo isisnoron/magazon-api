@@ -27,7 +27,6 @@ class ProductController {
             const produtoService = new ProdutoService()
 
             const hasProduct = await produtoService.findByCode(produto.code)
-            console.log(hasProduct)
             if(hasProduct) return res.status(400).json({error: "Product code already exists"})
 
             const response = await produtoService.create(produto)
@@ -39,9 +38,9 @@ class ProductController {
 
     async find(req, res) {
         try{
-            const { id } = req.params
+            const { code } = req.params
             const produtoService = new ProdutoService()
-            const product = await produtoService.find(id)
+            const product = await produtoService.findByCode(code)
             if(!product) return res.status(404).json({error: "Product not found"})
             return res.json(product)
         } catch(err){

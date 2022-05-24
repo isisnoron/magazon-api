@@ -7,7 +7,7 @@ const productController = new ProductController()
 
 router.get('/', (req, res) => productController.findAll(req, res))
 
-router.get('/:id', (req, res) => productController.find(req, res))
+router.get('/:code', (req, res) => productController.find(req, res))
 
 router.post('/', (req, res, next) => {
     productController.create(req.body, res)
