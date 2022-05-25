@@ -39,4 +39,4 @@ const schema = new Schema({
     }
 })
 
-module.exports = mongoose.model('WishList', schema)
+module.exports = mongoose.model('Wishlist', schema)
