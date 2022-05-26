@@ -1,4 +1,3 @@
-import { json } from "express/lib/response"
 import ProdutoService from "../services/product-service"
 
 class ProductController {

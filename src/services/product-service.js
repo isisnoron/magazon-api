@@ -1,8 +1,5 @@
-import mongoose from "mongoose"
 import Produto from "../models/products-models"
-import config from '../config'
 
-mongoose.connect(config.connectionString)
 
 class ProdutoService {
     create(produto) {
@@ -13,7 +10,7 @@ class ProdutoService {
     async findAll(params) {
         const page = params.page || 1
         const perPage = params.perPage || 10
-        const orderBy = params.orderBy || 'title'
+        const orderBy = params.orderBy || 'code'
         const orderDirection = params.orderDirection || 'asc'
         const sort = {[orderBy]: orderDirection === 'asc' ? 1 : -1}
         const skip = (page - 1) * perPage
