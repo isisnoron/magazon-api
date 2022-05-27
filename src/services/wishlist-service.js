@@ -6,43 +6,60 @@ mongoose.connect(config.connectionString)
 import Wishlist from '../models/wishilist-models'
 class WishlistService {
 
-    searchWishlists(idWishlist) {
-        const params = {}
-        if (idWishlist !== undefined && idWishlist !== null) {
-            params._id = idWishlist
-            console.log(idWishlist)
+    async searchWishlists(params) {
+        const page = params.page || 1
+        const perPage = params.perPage || 10
+        const orderBy = params.orderBy || 'title'
+        const orderDirection = params.orderDirection || 'asc'
+        const sort = { [orderBy]: orderDirection === 'asc' ? 1 : -1 }
+        const skip = (page - 1) * perPage
+        const filter = {}
+
+        const wishlists = await Wishlist.find(filter).sort(sort).skip(skip).limit(perPage).populate([{ path: 'client', select: ['name', 'email'] }, 'products'])
+        const total = await Wishlist.countDocuments()
+        const pages = Math.ceil(total / perPage)
+        const count = wishlists?.length ?? 0
+        return [page, perPage, total, wishlists, count, pages]
+    }
+
+    async searchWishlistsId(id) {
+        if (!mongoose.Types.ObjectId.isValid(id)) return false;
+        try {
+            const wishlist = await Wishlist.findOne({ _id: id })
+                .populate([{ path: 'client', select: ['name', 'email'] }, 'products'])
+            return wishlist
+        } catch (error) {
+            return res.status(500).json(error)
         }
-        return Wishlist.find(params).populate([{path: 'client', select: ['name', 'email'] }, 'products'])
     }
 
-    searchWishlistByClientId (idClient) {
-            const params = {}
-            if (idClient !== undefined && idClient !== null) {
-                params.client = {'_id': idClient}
-            }
-            return Wishlist.find(params).populate([{path: 'client', select: ['name', 'email'] }, 'products'])
+    async searchWishlistByClientId(idClient) {
+        if (!mongoose.Types.ObjectId.isValid(idClient)) return false;
+        const wishlist = await Wishlist.findOne({ client: { _id: idClient } })
+            .populate([{ path: 'client', select: ['name', 'email'] }, 'products'])
+        return wishlist
     }
 
-    searchWishlistByProductId (productId) {
-            const params = {}
-            if (productId !== undefined && productId !== null) {
-                params.products = [{'_id': productId}]
-            }
-            return Wishlist.find(params).populate([{path: 'client', select: ['name', 'email'] }, 'products'])
+    async searchWishlistByProductId(productId) {
+        if (!mongoose.Types.ObjectId.isValid(productId)) return false;
+        const wishlist = await Wishlist.findOne({ products: { _id: productId } })
+            .populate([{ path: 'client', select: ['name', 'email'] }, 'products'])
+        return wishlist
     }
-
+    
     registerWishlist(wishlist) {
         const novoWishlist = new Wishlist(wishlist)
         return novoWishlist.save()
     }
 
-    // verificar novamente
-    updateWishlist(idWishlist, wishlist) {
-        return Wishlist.findOneAndUpdate({_id: idWishlist}, wishlist)
+    async updateWishlist(id, wishlist) {
+        const wishlistUpdate = await Wishlist.findOneAndUpdate({ _id: id }, wishlist)
+        return wishlistUpdate
     }
 
-    removeWishlist(idWishlist) {
-        return Wishlist.findOneAndDelete({_id: idWishlist})
+    async removeWishlist(idWishlist) {
+        const wishlist = await Wishlist.findOneAndDelete({ _id: idWishlist })
+        return wishlist
     }
 }
 

@@ -3,35 +3,98 @@ import WishlistService from '../services/wishlist-service'
 const wishlistService = new WishlistService() 
 class WishlistController {
 
-    //TODO: tratamento de erros
-
-    searchWishlist() {
-        return wishlistService.searchWishlists()
+  async searchWishlist(req, res) {
+    try {
+      const params = req.query;
+      const [page, perPage, total, wishlists, count, pages] =
+        await wishlistService.searchWishlists(params);
+      return res
+        .status(200)
+        .json({ page, perPage, total, wishlists, count, pages });
+    } catch (err) {
+      return res.status(500).json(err);
     }
+  }
 
-    searchWishlistId(idWishlist) {
-        return wishlistService.searchWishlists(idWishlist)
+  async searchWishlistsId(req, res) {
+    try {
+      const params = req.params._id;
+      const idWishlist = await wishlistService.searchWishlistsId(params);
+      if (!idWishlist) return res.status(404).json({ error: "Wishlist not found" });
+      return res.json(idWishlist);
+    } catch (err) {
+      return res.status(500).json(err);
     }
+  }
 
-    searchWishlistByClientId(clientId) {
-        return wishlistService.searchWishlistByClientId(clientId)
+  async searchWishlistByClientId(req, res) {
+    try {
+      const params = req.params._id;
+      const idWishlist = await wishlistService.searchWishlistByClientId(params);
+      if (!idWishlist)
+        return res.status(404).json({ error: "Wishlist not found" });
+      return res.json(idWishlist);
+    } catch (error) {
+      return res.status(500).json(error);
     }
+  }
 
-    searchWishlistByProductId(productId) {
-        return wishlistService.searchWishlistByProductId(productId)
+  async searchWishlistByProductId(req, res) {
+    try {
+      const params = req.params._id;
+      const wishlist = await wishlistService.searchWishlistByProductId(params);
+      if (!wishlist)
+        return res.status(404).json({ error: "Wishlist not found" });
+      return res.json(wishlist);
+    } catch (err) {
+      return res.status(500).json(err);
     }
+  }
 
-    registerWishlist(wishlist) {
-        return wishlistService.registerWishlist(wishlist)
-    }
+  async registerWishlist(wishlist, res) {
+    try {
+      const requiredFields = ["title", "description", "client", "products"];
+      for (let field of requiredFields) {
+        if (!Object.keys(wishlist).includes(field) || !wishlist[field]) {
+          return res.status(400).json({
+            error: `Missing ${field} field`,
+          });
+        }
+        else if (new Set(wishlist.products).size !== wishlist.products.length) {
+          return res.status(400).json({
+            error: `Error. It is not possible to register duplicated products in the same wishlist`,
+          })
+        }
+      }
 
-    updateWishlist(idWishlist, wishlist) {
-        return wishlistService.updateWishlist(idWishlist, wishlist)
+      const response = await wishlistService.registerWishlist(wishlist);
+      return res.status(200).json(response);
+    } catch (err) {
+      return res.status(500).json({ err: `Error occurred. Unable to register a wishlist.` });
     }
-        
-    removeWishlist(idWishlist) {
-        return wishlistService.removeWishlist(idWishlist)
-    } 
+  }
+
+  async updateWishlist(req, res) {
+    try {
+      const { id } = req.params
+      const wishlist = req.body
+      console.log(wishlist, id)
+      const wishlistUpdate = await wishlistService.updateWishlist(id, wishlist)
+      return res.status(200).json(wishlistUpdate)
+    } catch (err) {
+      return res.status(500).json(err)
+    }
+  }
+
+  async removeWishlist(req, res) {
+    try {
+      const { id } = req.params;
+      const wishlist = await wishlistService.removeWishlist(id);
+      return res.status(200).json(wishlist);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  }
 
 }
 

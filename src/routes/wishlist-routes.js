@@ -4,53 +4,20 @@ import WishlistController from '../controllers/wishlist-controller'
 const router = express.Router()
 const wishlistController = new WishlistController()
 
-// <ok> listar todos os Wishlists do banco
-router.get('/', (req, res, next) => {
-    wishlistController.searchWishlistId()
-    .then(wishlists => res.status(200).send(wishlists))
-    .catch(next)
-})
+router.get('/client/id/:_id', (req, res) => wishlistController.searchWishlistByClientId(req, res))
 
-// <ok> buscar um Wishlist pelo identificador
-router.get('/:_id', (req, res) => {
-    wishlistController.searchWishlistId(req.params._id)
-    .then(wishlist => res.status(200).send(wishlist))
-})
+router.get('/products/id/:_id', (req, res) => wishlistController.searchWishlistByProductId(req, res))
 
-// <ok> buscar um Wishlist pelo id do cliente
-router.get('/client/id/:_id', (req, res, next) => {
-    wishlistController.searchWishlistByClientId(req.params._id)
-    .then(wishlists => res.status(200).send(wishlists))
-    .catch(next)
-    console.log('routes', req.params)
-})
+router.put('/:id', (req, res) => wishlistController.updateWishlist(req, res) )
 
-// <ok> buscar uma Wishlist pelo id de um produto
-router.get('/products/id/:_id', (req, res, next) => {
-    wishlistController.searchWishlistByProductId(req.params._id)
-    .then(wishlists => res.status(200).send(wishlists))
-    .catch(next)
-})
+router.delete('/:id', (req, res, next) => wishlistController.removeWishlist(req, res) )
 
-// <ok> cadastrar novo Wishlist
-router.post('/', (req, res, next) => {
-    wishlistController.registerWishlist(req.body)
-    .then(wishlist => res.status(200).send(wishlist))
-    .catch(next)
-})
+router.get('/:_id', (req, res) => wishlistController.searchWishlistsId(req, res))
 
-// <rever> atualizar Wishlist
-router.put('/:_id', (req, res, next) => {
-    wishlistController.updateWishlist(req.params._id, req.body)
-    .then(wishlist => res.status(200).send(wishlist))
-    .catch(next)
-})
+router.get('/', (req, res) => wishlistController.searchWishlist(req, res))
 
-// <ok> remover Wishlist
-router.delete('/:_id', (req, res, next) => {
-    wishlistController.removeWishlist(req.params._id)
-    .then(wishlist => res.status(200).send(wishlist))
-    .catch(next)
+router.post('/', (req, res) => {
+    wishlistController.registerWishlist(req.body, res)
 })
 
 export default router
