@@ -6,11 +6,8 @@ class WishlistController {
   async searchWishlist(req, res) {
     try {
       const params = req.query;
-      const [page, perPage, total, wishlists, count, pages] =
-        await wishlistService.searchWishlists(params);
-      return res
-        .status(200)
-        .json({ page, perPage, total, wishlists, count, pages });
+      const [page, perPage, total, wishlists, count, pages] = await wishlistService.searchWishlists(params);
+      return res.status(200).json({ page, perPage, total, wishlists, count, pages });
     } catch (err) {
       return res.status(500).json(err);
     }
@@ -20,7 +17,9 @@ class WishlistController {
     try {
       const params = req.params._id;
       const idWishlist = await wishlistService.searchWishlistsId(params);
-      if (!idWishlist) return res.status(404).json({ error: "Wishlist not found" });
+      if (!idWishlist) return res.status(404).json({ error: {
+        "code": 404, "message": "Wishlist not found" 
+      }});
       return res.json(idWishlist);
     } catch (err) {
       return res.status(500).json(err);
@@ -32,7 +31,9 @@ class WishlistController {
       const params = req.params._id;
       const idWishlist = await wishlistService.searchWishlistByClientId(params);
       if (!idWishlist)
-        return res.status(404).json({ error: "Wishlist not found" });
+        return res.status(404).json({ error: {
+          "code": 404, "message": "Wishlist not found" 
+        }});
       return res.json(idWishlist);
     } catch (error) {
       return res.status(500).json(error);
@@ -44,7 +45,9 @@ class WishlistController {
       const params = req.params._id;
       const wishlist = await wishlistService.searchWishlistByProductId(params);
       if (!wishlist)
-        return res.status(404).json({ error: "Wishlist not found" });
+        return res.status(404).json({ error: {
+          "code": 404, "message": "Wishlist not found" 
+        }});
       return res.json(wishlist);
     } catch (err) {
       return res.status(500).json(err);
@@ -56,14 +59,13 @@ class WishlistController {
       const requiredFields = ["title", "description", "client", "products"];
       for (let field of requiredFields) {
         if (!Object.keys(wishlist).includes(field) || !wishlist[field]) {
-          return res.status(400).json({
-            error: `Missing ${field} field`,
+          return res.status(400).json({err: `Bad Request. Missing ${field} field.`
           });
         }
         else if (new Set(wishlist.products).size !== wishlist.products.length) {
-          return res.status(400).json({
-            error: `Error. It is not possible to register duplicated products in the same wishlist`,
-          })
+          return res.status(400).json({ err: {
+            "code": 400, "message": "Bad Request. It's not possible to register duplicated products in the same wishlist." 
+          }});
         }
       }
 
@@ -90,6 +92,10 @@ class WishlistController {
     try {
       const { id } = req.params;
       const wishlist = await wishlistService.removeWishlist(id);
+      if (!wishlist)
+        return res.status(404).json({ error: {
+          "code": 404, "message": "Wishlist not found" 
+        }});
       return res.status(200).json(wishlist);
     } catch (err) {
       return res.status(500).json(err);
