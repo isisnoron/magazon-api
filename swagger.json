@@ -1,0 +1,259 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Wishlist Magazon",
+      "description": "Manage customers, books and save favorite books by customer",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/produtos": { 
+            "post": {
+                "tags": ["Products"],
+                "summary": "Create a new product",
+                "description": "Create a new product",
+                "operationId": "createProduct",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Product to create",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProductRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product created",
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid product"
+                    }
+                }
+            },
+            "get": {
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "type": "integer",
+                        "example": "1",
+                        "default": 1
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "items per page",
+                        "required": false,
+                        "type": "integer",
+                        "example": "10",
+                        "default": 10
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "description": "field to order by",
+                        "required": false,
+                        "type": "string",
+                        "example": "title | author | price",
+                        "default": "title"
+                    },
+                    {
+                        "name": "orderDirection",
+                        "in": "query",
+                        "description": "order direction",
+                        "required": false,
+                        "type": "string",
+                        "example": "asc | desc",
+                        "default": "asc"
+                    }
+                ],
+                "tags": ["Products"],
+                "summary": "Get all products",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Products"
+                        }
+                    }
+                }
+            }
+        },
+        "/produtos/{code}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "path",
+                        "description": "Product code",
+                        "required": true,
+                        "type": "integer",
+                        "example": "1"
+                    }
+                ],
+                "tags": ["Products"],
+                "summary": "Get product by code",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                }
+            }
+        },
+        "/produtos/{id}": {
+            "patch": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true,
+                        "type": "string",
+                        "example": "1"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Product data",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProductRequest"
+                        }
+                    }
+                ],
+                "tags": ["Products"],
+                "summary": "Update product by id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product id",
+                        "required": true,
+                        "type": "string",
+                        "example": "1"
+                    }
+                ],
+                "tags": ["Products"],
+                "summary": "Delete product by id",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Products": {
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pages": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "perPage": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/Product"
+                    }
+                }
+            }
+        },
+        "Product": {
+            "properties": {
+                "_id": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "code": {
+                    "type": "boolean",
+                    "uniqueItems": true
+                },
+                "title": {
+                    "type": "string"
+                },
+                "author": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "active": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "ProductRequest": {
+            "properties": {
+                "code": {
+                "type": "number"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "author": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "active": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}
