@@ -24,7 +24,6 @@ const schema = new Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Produto',
         required: true,
-        unique: true,
         trim: true,
         validate: v => v == null || v.length > 0
     },
@@ -39,4 +38,4 @@ const schema = new Schema({
     }
 })
 
-module.exports = mongoose.model('WishList', schema)
+module.exports = mongoose.model('Wishlist', schema)
