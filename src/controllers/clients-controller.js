@@ -1,47 +1,94 @@
 import ClientService from '../services/clients-service'
 
 class ClientController {
-    searchClientById(idClient) {
-        const clientService = new ClientService()
-        return clientService.searchClients(idClient)
+    
+    async searchClientById(req, res) {
+        try {
+            const paramsId = req
+            const clientService = new ClientService()
+            const client = await clientService.searchClients(paramsId)
+            return res.json(client)
+        } catch (err) {
+            return res.status(404).json("Client not found: invalid ID")
+        }
     }
 
-    searchClientByEmail(emailClient) {
-        const clientService = new ClientService()
-        return clientService.searchClientByEmail(emailClient)
+    async searchClientByEmail(req, res) {
+        try {
+            const paramsEmail = req
+            const clientService = new ClientService()
+            const client = await clientService.searchClientByEmail(paramsEmail)
+            return res.json(client)
+        } catch (err) {
+            return res.status(404).json("Client not found: invalid email")
+        }
     }
 
-    searchClientsByName(nameClients, query) {
-        const clientService = new ClientService()
-        return clientService.searchClientsByName(nameClients, query)
+    async searchClientsByName(req, res) {
+        try {
+            const paramsName = req.params.name
+            const query = req.query
+            console.log(query)
+            const clientService = new ClientService()
+            const client = await clientService.searchClientsByName(paramsName, query)
+            return res.json(client)
+        } catch (err) {
+            return res.status(404).json("Client not found: invalid name")
+        }
     }
 
-    searchClientByWishlist(idWishlist) {
-        const clientService = new ClientService()
-        return clientService.searchClientByWishlist(idWishlist)
+    async searchClientByWishlist(req, res) {
+        try {
+            const paramIdWishlist = req
+            const clientService = new ClientService()
+            const client = await clientService.searchClientByWishlist(paramIdWishlist)
+            return res.json(client)
+        } catch (err) {
+            return res.status(404).json("Client not found: invalid id wishlist")
+        }
     }
 
-    searchClients() {
-        const clientService = new ClientService()
-        return clientService.searchClients()
+    async searchClients(req, res) {
+        try {
+            const clientService = new ClientService()
+            const client = await clientService.searchClients()
+            return res.json(client)
+        } catch (err) {
+            return res.status(500).json("Internal Server")
+        }
     }
 
-    registerClient(client, res) {
-        console.log('Cadastrando um novo cliente...', client)
-        const clientService = new ClientService()
-        return clientService.registerClient(client)
+    async registerClient(req, res) {
+        try{
+            const clientService = new ClientService()
+            const response = await clientService.registerClient(req)
+            return res.status(200).json(response)
+        } catch(err){
+            return res.status(400).json("Unable to register")
+        }
     }
 
-    updateClient(idClient, client) {
-        console.log('atualizando cliente com id: ', idClient)
-        const clientService = new ClientService()
-        return clientService.updateClient(idClient, client)
+    async updateClient(req, res) {
+        try {
+            const clientService = new ClientService()
+            const idClient = req.params
+            const upClient = req.body
+            const response = await clientService.updateClient(idClient, upClient)
+            return res.status(200).json(response)
+        } catch (err) {
+            return res.status(500).json("Unable to update")           
+        }
     }
 
-    removeClient(idClient) {
-        console.log('removendo cliente com id: ', idClient)
-        const clientService = new ClientService()
-        return clientService.removeClient(idClient)
+    async removeClient(req, res) {
+        try {
+            const clientService = new ClientService()
+            const idClient = req
+            const response = await clientService.removeClient(idClient)
+            return res.status(200).json(response)
+        } catch (err) {
+            return res.status(500).json("Unable to delete")           
+        }
     }
 }
 
