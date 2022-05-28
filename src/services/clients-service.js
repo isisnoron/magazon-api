@@ -9,67 +9,49 @@ import Client from '../models/clients-models'
 import Wishlist from '../models/wishilist-models'
 
 class ClientService {
-    searchClients(idClient) {
-        const params = {}
-        if (idClient !== undefined && idClient !== null) {
-            params._id = idClient
+    searchClients(params) {
+        if (params !== undefined && params !== null) {
+            return Client.find({_id: params})
+        } else {
+            return Client.find({})
         }
-        return Client.find(params)
     } 
     
-    searchClientByEmail(emailClient) {
-        const params = {}
-        if (emailClient !== undefined && emailClient !== null) {
-            params.email = emailClient
-        }
-        return Client.find(params)
+    async searchClientByEmail(params) {
+        return Client.find({email: params})
     }
 
-    searchClientsByName(nameClients, query) {
-        const params = {}
-        if (nameClients !== undefined && nameClients !== null) {
-            params.name = nameClients
-        }
-
+    searchClientsByName(params, query) {
         const page = query.page
         const limit = query.limit
 
         if ((query.page || query.limit) == undefined || (query.page || query.limit) == null) {
-            return Client.find({name: { $regex: new RegExp(params.name), $options: 'i'}})
+            return Client.find({name: {$regex: new RegExp(params), $options: 'i'}})
         } else {
             return Client.paginate({
-                name: { $regex: new RegExp(params.name), $options: 'i'}
-            }, {page, limit}, function (err, result) {})
+                name: {$regex: new RegExp(params), $options: 'i'}
+            }, {page, limit})
         }  
     }
 
-    async searchClientByWishlist(idWishlist) {
-
-        // const params = {}
-
-        // if (idWishlist !== undefined && idWishlist !== null) {
-        //     params.Wishlist_id = idWishlist
-        // }
-        
-        const response = await Wishlist.findById(idWishlist.wishlist_id)
-        const client_id = (response.client_id).toString()
-
-        return Client.find({"_id" : client_id})
+    async searchClientByWishlist(params) {
+        const response = await Wishlist.findById({_id: params})
+        const clientId = await (response.client).toString()
+        return Client.find({_id: clientId})
     }
 
-    registerClient(client) {
-        const newClient = new Client(client)
+    async registerClient(req, res) {
+        const newClient = new Client(req)
         return newClient.save()
     }
 
-    updateClient(idClient, client) {
-        return Client.findOneAndUpdate({_id: idClient}, client)
+    async updateClient(idClient, upClient) {
+        return Client.findOneAndUpdate({_id: idClient}, upClient)
     }
 
-    async removeClient(idClient) {
-        const retorno = await Wishlist.deleteMany(idClient._id)
-        console.log("retorno", retorno)
-        return Client.findOneAndDelete({_id: idClient})       
+    async removeClient(req, res) {
+        await Wishlist.deleteMany(req._id)
+        return Client.findOneAndDelete({_id: req})       
     }
 }
 
