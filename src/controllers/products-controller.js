@@ -1,11 +1,11 @@
-import ProdutoService from "../services/product-service"
+import ProductService from "../services/product-service"
 
 class ProductController {
     
     async findAll(req, res){
         try{
             const params = req.query
-            const produtoService = new ProdutoService()
+            const produtoService = new ProductService()
             const [page, perPage, total, products, count, pages] = await produtoService.findAll(params)
             return res.status(200).json({page, perPage, total, products, count, pages})
         } catch(err){
@@ -23,7 +23,7 @@ class ProductController {
                     })
                 }
             }
-            const produtoService = new ProdutoService()
+            const produtoService = new ProductService()
 
             const hasProduct = await produtoService.findByCode(produto.code)
             if(hasProduct) return res.status(400).json({error: "Product code already exists"})
@@ -38,7 +38,7 @@ class ProductController {
     async find(req, res) {
         try{
             const { code } = req.params
-            const produtoService = new ProdutoService()
+            const produtoService = new ProductService()
             const product = await produtoService.findByCode(code)
             if(!product) return res.status(404).json({error: "Product not found"})
             return res.json(product)
@@ -52,7 +52,7 @@ class ProductController {
         try{
             const {id} = req.params
             const productUpdate = req.body
-            const productService = new ProdutoService()
+            const productService = new ProductService()
             const product = await productService.update(id, productUpdate)
 
             return res.status(200).json(product)
@@ -64,7 +64,7 @@ class ProductController {
     async delete(req, res) {
         try{
             const {id} = req.params
-            const produtoService = new ProdutoService()
+            const produtoService = new ProductService()
             const product = await produtoService.delete(id)
             return res.status(200).json(product)
         } catch(err){
