@@ -15,6 +15,238 @@
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths": {
+        "/clients": { 
+            "post": {
+                "tags": ["Clients"],
+                "summary": "Register a new client",
+                "description": "Register a new client",
+                "operationId": "registerClient",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Client to register",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ClientRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Registered client",
+                        "schema": {
+                            "$ref": "#/definitions/Client"
+                        }
+                    },
+                    "400": {
+                        "description": "Unable to register"
+                    }
+                }
+            },
+            "get": {
+                "parameters": [ ],
+                "tags": ["Clients"],
+                "summary": "Get all clients",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Clients"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server"
+                    }
+                }
+            }
+        },
+        "/clients/{id}": {
+            "put": {
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "path",
+                        "description": "Client id",
+                        "required": true,
+                        "type": "String",
+                        "example": "628d660d47544aaad973bdb6"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Client data",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ClientRequest"
+                        }
+                    }
+                ],
+                "tags": ["Clients"],
+                "summary": "Update client by id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Client"
+                        }
+                    },
+                    "500": {
+                        "description": "Unable to update"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "path",
+                        "description": "Client id",
+                        "required": true,
+                        "type": "String",
+                        "example": "628d660d47544aaad973bdb6"
+                    }
+                ],
+                "tags": ["Clients"],
+                "summary": "Delete client by id and their wishlists",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Unable to delete"
+                    }
+                }
+            }
+        }, 
+        "/clients/id/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "in": "path",
+                        "description": "Client id",
+                        "required": true,
+                        "type": "String",
+                        "example": "628d660d47544aaad973bdb6"
+                    }
+                ],
+                "tags": ["Clients"],
+                "summary": "Get client by id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Client"
+                        },
+                        "404": {
+                            "description": "Client not found: invalid ID"
+                        }
+                    }
+                }
+            }
+        },
+        "/clients/name/{name}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Client name",
+                        "required": true,
+                        "type": "String",
+                        "example": "Elisa"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "type": "integer",
+                        "example": "1",
+                        "default": 1
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit items per page",
+                        "required": false,
+                        "type": "integer",
+                        "example": "10",
+                        "default": 10
+                    }
+                ],
+                "tags": ["Clients"],
+                "summary": "Get all clients by name",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Clients"
+                        },
+                        "404": {
+                            "description": "Client not found: invalid name"
+                        }
+                    }
+                }
+            }
+        },
+        "/clients/email/{email}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "Client email",
+                        "required": true,
+                        "type": "String",
+                        "example": "elisa@gmail.com"
+                    }
+                ],
+                "tags": ["Clients"],
+                "summary": "Get client by email",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Clients"
+                        },
+                        "404": {
+                            "description": "Client not found: invalid email"
+                        }
+                    }
+                }
+            }
+        },
+        "/clients/wishlist/id/:wishlist_id": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "wishlist_id",
+                        "in": "path",
+                        "description": "Wishlist id",
+                        "required": true,
+                        "type": "String",
+                        "example": "628d660d47544aaad973bdb6"
+                    }
+                ],
+                "tags": ["Clients"],
+                "summary": "Get client by wishlist id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Clients"
+                        }
+                    },
+                    "404": {
+                        "description": "Client not found: invalid id wishlist"
+                    }
+                }
+            }
+        },
         "/produtos": { 
             "post": {
                 "tags": ["Products"],
@@ -411,6 +643,72 @@
             }        
     },
     "definitions": {
+        "Clients": {
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "limit": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "clients": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/Client"
+                    }
+                }
+            }
+        },
+        "Client": {
+            "properties": {
+                "_id": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "cpf": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "literaryPreference": {
+                    "type": "string"
+                },
+                "birthDate": {
+                    "type": "date"
+                }
+            }
+        },
+        "ClientRequest": {
+            "properties": {
+                "_id": {
+                "type": "object id"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "cpf": {
+                    "type": "string"
+                },
+                "literaryPreference": {
+                    "type": "string"
+                },
+                "birthDate": {
+                    "type": "date"
+                }
+            }
+        },
         "Products": {
             "properties": {
                 "total": {
