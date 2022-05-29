@@ -28,7 +28,6 @@ class ClientController {
         try {
             const paramsName = req.params.name
             const query = req.query
-            console.log(query)
             const clientService = new ClientService()
             const client = await clientService.searchClientsByName(paramsName, query)
             return res.json(client)

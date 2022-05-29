@@ -404,7 +404,243 @@
                     }
                 }
             }
-        }
+        },
+
+        "/wishlist": { 
+            "post": {
+                "tags": ["Wishlists"],
+                "summary": "Create a new wishlist",
+                "description": "Create a new wishlist",
+                "operationId": "createWishlist",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Wishlist to create",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/WishlistRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Wishlist created",
+                        "schema": {
+                            "$ref": "#/definitions/Wishlist"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid wishlist"
+                    }
+                }
+            },
+            "get": {
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "type": "integer",
+                        "example": "1",
+                        "default": 1
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "items per page",
+                        "required": false,
+                        "type": "integer",
+                        "example": "10",
+                        "default": 10
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "description": "field to order by",
+                        "required": false,
+                        "type": "string",
+                        "example": "title | author | price",
+                        "default": "title"
+                    },
+                    {
+                        "name": "orderDirection",
+                        "in": "query",
+                        "description": "order direction",
+                        "required": false,
+                        "type": "string",
+                        "example": "asc | desc",
+                        "default": "asc"
+                    }
+                ],
+                "tags": ["Wishlists"],
+                "summary": "Get all wishlists",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Wishlists"
+                        }
+                    }
+                }
+            }
+        },
+        "/wishlist/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Wishlist id",
+                        "required": true,
+                        "type": "integer",
+                        "example": "1"
+                    }
+                ],
+                "tags": ["Wishlists"],
+                "summary": "Get wishlist by id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Wishlist"
+                        }
+                    },
+                    "404": {
+                        "description": "Wishlist not found",
+                        "schema": {
+                            "$ref": "#/components/schemas/error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Wishlist id",
+                        "required": true,
+                        "type": "string",
+                        "example": "1"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Wishlist data",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/WishlistRequest"
+                        }
+                    }
+                ],
+                "tags": ["Wishlists"],
+                "summary": "Update wishlist by id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Wishlist"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/components/schemas/error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Wishlist id",
+                        "required": true,
+                        "type": "string",
+                        "example": "1"
+                    }
+                ],
+                "tags": ["Wishlists"],
+                "summary": "Delete wishlist by id",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "404": {
+                    "description": "Wishlist not found",
+                    "schema": {
+                        "$ref": "#/components/schemas/error"
+                    }
+                }
+            }
+        },
+            "/wishlist/client/{id}": {
+                "get": {
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "description": "Wishlist client id",
+                            "required": true,
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    ],
+                    "tags": ["Wishlists"],
+                    "summary": "Get wishlist by client id",
+                    "responses": {
+                        "200": {
+                            "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/Wishlist"
+                            }
+                        },
+                        "404": {
+                            "description": "Wishlist not found",
+                            "schema": {
+                                "$ref": "#/components/schemas/error"
+                            }
+                        }
+                    }
+                }
+            },
+            "/wishlist/products/{id}": {
+                "get": {
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "description": "Wishlist product id",
+                            "required": true,
+                            "type": "integer",
+                            "example": "1"
+                        }
+                    ],
+                    "tags": ["Wishlists"],
+                    "summary": "Get wishlist by product id",
+                    "responses": {
+                        "200": {
+                            "description": "OK",
+                            "schema": {
+                                "$ref": "#/definitions/Wishlist"
+                            }
+                        },
+                        "404": {
+                            "description": "Wishlist not found",
+                            "schema": {
+                                "$ref": "#/components/schemas/error"
+                            }
+                        }
+                    }
+                
+                }            
+            }        
     },
     "definitions": {
         "Clients": {
@@ -550,6 +786,103 @@
                 },
                 "active": {
                     "type": "boolean"
+                }
+            }
+        },
+
+        "Wishlists": {
+            "properties": {
+                "total": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "page": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pages": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "perPage": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "wishlists": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/Wishlist"
+                    }
+                }
+            }
+        },
+        "Wishlist": {
+            "properties": {
+                "_id": {
+                    "type": "integer",
+                    "uniqueItems": true
+                },
+                "title": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "description": {
+                    "type": "string"
+                },
+                "client": {
+                    "type": "string"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "createAd": {
+                    "type": "string"
+                },
+                "active": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "WishlistRequest": {
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "description": {
+                    "type": "string"
+                },
+                "client": {
+                    "type": "string"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "error": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                    "type": "number"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
                 }
             }
         }
