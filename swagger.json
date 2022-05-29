@@ -247,7 +247,7 @@
                 }
             }
         },
-        "/produtos": { 
+        "/products": { 
             "post": {
                 "tags": ["Products"],
                 "summary": "Create a new product",
@@ -304,7 +304,7 @@
                         "description": "field to order by",
                         "required": false,
                         "type": "string",
-                        "example": "title | author | price",
+                        "example": "title | author ",
                         "default": "title"
                     },
                     {
@@ -329,7 +329,7 @@
                 }
             }
         },
-        "/produtos/{code}": {
+        "/products/{code}": {
             "get": {
                 "parameters": [
                     {
@@ -353,7 +353,7 @@
                 }
             }
         },
-        "/produtos/{id}": {
+        "/products/{_id}": {
             "patch": {
                 "parameters": [
                     {
