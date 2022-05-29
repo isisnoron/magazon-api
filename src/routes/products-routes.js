@@ -7,6 +7,9 @@ const productController = new ProductController()
 
 router.get('/', (req, res) => productController.findAll(req, res))
 
+router.get('/wishlist/product/:productId', (req, res) => productController.findWishlistByProduct(req, res))
+
+
 router.get('/:code', (req, res) => productController.find(req, res))
 
 router.post('/', (req, res, next) => {

@@ -315,6 +315,24 @@
                         "type": "string",
                         "example": "asc | desc",
                         "default": "asc"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "field filter by title",
+                        "required": false,
+                        "type": "string",
+                        "example": "title  ",
+                        "default": "string"
+                    },
+                    {
+                        "name": "author",
+                        "in": "query",
+                        "description": "field filter by author",
+                        "required": false,
+                        "type": "string",
+                        "example": "author  ",
+                        "default": "string"
                     }
                 ],
                 "tags": ["Products"],

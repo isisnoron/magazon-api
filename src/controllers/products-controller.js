@@ -1,4 +1,5 @@
 import ProductService from "../services/product-service"
+import WishlistService from "../services/wishlist-service"
 
 class ProductController {
     
@@ -67,6 +68,17 @@ class ProductController {
             const produtoService = new ProductService()
             const product = await produtoService.delete(id)
             return res.status(200).json(product)
+        } catch(err){
+            return res.status(500).json(err)
+        }
+    }
+
+    async findWishlistByProduct(req, res) {
+        try{
+            const { productId } = req.params
+            const wishlistService = new WishlistService()
+            const list = await wishlistService.searchWishlistByProductId(productId)
+            return res.status(200).json(list)
         } catch(err){
             return res.status(500).json(err)
         }
