@@ -65,6 +65,11 @@ class ProductController {
     async delete(req, res) {
         try{
             const {id} = req.params
+            const wishlistService = new WishlistService()
+            const wishlistHasProductId = await wishlistService.searchWishlistByProductId(id)
+            if (wishlistHasProductId?.length) {
+                return res.status(400).json({error: "Product exists in wishlist"})
+            }
             const produtoService = new ProductService()
             const product = await produtoService.delete(id)
             return res.status(200).json(product)
