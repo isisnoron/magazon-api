@@ -68,7 +68,7 @@ class ProductController {
             const wishlistService = new WishlistService()
             const wishlistHasProductId = await wishlistService.searchWishlistByProductId(id)
             if (wishlistHasProductId?.length) {
-                return res.status(400).json({error: "Product existis in wishlist"})
+                return res.status(400).json({error: "Product exists in wishlist"})
             }
             const produtoService = new ProductService()
             const product = await produtoService.delete(id)
