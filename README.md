@@ -78,8 +78,8 @@ Conforme foi estabelecido no desenvolvimento do desafio, a API possui os seguint
 
 * `GET /products`
 * `GET /products/:code`
-* `PATCH /products`
-* `PUT /products/:_id`
+* `POST /products`
+* `PATCH /products/:_id`
 * `DELETE /products/:_id`
 
 ### 3.3 `/wishlists`
