@@ -2,7 +2,7 @@
   Wishlist Magazon Bookstore - API com Node.js
 </h1>
 
-Desafio final proposto pela 4ª Edição do LuizaCode, onde devemos desenvolver uma API Rest para gerenciamento de lista de desejos do e-commerce da livraria Bookstore. A documentação poderá ser acessada através do link [Magazon Bookstore API](colocar link aqui)
+Desafio final proposto pela 4ª Edição do LuizaCode, onde devemos desenvolver uma API Rest para gerenciamento de lista de desejos do e-commerce da livraria Bookstore. A documentação poderá ser acessada através do link [Magazon Bookstore API]
 
 
 ## Índice
