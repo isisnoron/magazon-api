@@ -119,6 +119,20 @@ class WishlistController {
             "code": 400, "message": "Bad Request. It's not possible to register duplicated products in the same wishlist."
           }});
       }
+
+      const products = wishlist.products
+
+      for (let i of products) {
+        const produtoService = new ProdutoService()
+        const hasProduct = await produtoService.find(i)
+
+        if (!hasProduct) {
+          return res.status(400).json({ err: {
+            "code": 400, "message": "Bad Request. Product not exist."
+          }})
+        }
+      }
+
       const wishlistUpdate = await wishlistService.updateWishlist(id, wishlist)
       return res.status(200).json(wishlistUpdate)
     } catch (err) {
