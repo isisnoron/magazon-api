@@ -1,3 +1,6 @@
+
+import ClientService from '../services/clients-service';
+import ProdutoService from '../services/product-service';
 import WishlistService from '../services/wishlist-service'
 
 const wishlistService = new WishlistService() 
@@ -48,7 +51,7 @@ class WishlistController {
         return res.status(404).json({ error: {
           "code": 404, "message": "Wishlist not found" 
         }});
-      return res.json(wishlist);
+      return res.status(200).json(wishlist);
     } catch (err) {
       return res.status(500).json(err);
     }
@@ -57,20 +60,50 @@ class WishlistController {
   async registerWishlist(wishlist, res) {
     try {
       const requiredFields = ["title", "description", "client", "products"];
+
+      const products = wishlist.products
+      const client = wishlist.client
+
+      for (let i of products) {
+        const produtoService = new ProdutoService()
+        const hasProduct = await produtoService.find(i)
+
+        if (!hasProduct) {
+          return res.status(400).json({ err: {
+            "code": 400, "message": "Bad Request. Product not exist."
+          }})
+        }
+      }
+
+      const clientService = new ClientService()
+      const hasClient = await clientService.searchClients(client)
+
+      if (hasClient && hasClient.length <= 0) {
+        return res.status(400).json({  err: {
+          "code": 400, "message": "Bad Request. Client not exist."
+        }})
+      }
+
       for (let field of requiredFields) {
         if (!Object.keys(wishlist).includes(field) || !wishlist[field]) {
-          return res.status(400).json({err: `Bad Request. Missing ${field} field.`
+          return res.status(400).json({
+            err: `Bad Request. Missing ${field} field.`
           });
         }
+
+
         else if (new Set(wishlist.products).size !== wishlist.products.length) {
-          return res.status(400).json({ err: {
-            "code": 400, "message": "Bad Request. It's not possible to register duplicated products in the same wishlist." 
-          }});
+          return res.status(400).json({
+            err: {
+              "code": 400, "message": "Bad Request. It's not possible to register duplicated products in the same wishlist."
+            }
+          });
         }
       }
 
       const response = await wishlistService.registerWishlist(wishlist);
       return res.status(200).json(response);
+
     } catch (err) {
       return res.status(500).json({ err: `Error occurred. Unable to register a wishlist.` });
     }
@@ -80,7 +113,12 @@ class WishlistController {
     try {
       const { id } = req.params
       const wishlist = req.body
-      console.log(wishlist, id)
+      if (new Set(wishlist.products).size !== wishlist.products.length) {
+        return res.status(400).json({
+          err: {
+            "code": 400, "message": "Bad Request. It's not possible to register duplicated products in the same wishlist."
+          }});
+      }
       const wishlistUpdate = await wishlistService.updateWishlist(id, wishlist)
       return res.status(200).json(wishlistUpdate)
     } catch (err) {
