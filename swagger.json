@@ -220,7 +220,7 @@
                 }
             }
         },
-        "/clients/wishlist/id/:wishlist_id": {
+        "/clients/wishlist/id/{wishlist_id}": {
             "get": {
                 "parameters": [
                     {
