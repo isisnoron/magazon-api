@@ -52,8 +52,14 @@ Agora vamos rodar a aplicação! Digite no terminal:
       npm start
       
 
-Prontinho! Já pode usar o projeto.
-  
+Prontinho! Já pode usar o projeto. Dentro do banco de dados _bookstore_, temos as seguintes coleções: 
+  - clients
+  - products
+  - wishlists
+
+Você pode utilizar o [postman](https://www.postman.com/downloads/) para inserir clientes, produtos e wishlists através do método POST. Assim, as coleções serão automaticamente criadas no banco de dados.
+Você pode conferir os requisitos e os endpoints através da [documentação](link do deploy aqui).  
+ 
 ## 3.  Endpoints
 Conforme foi estabelecido no desenvolvimento do desafio, a API possui os seguintes endpoints:
 
