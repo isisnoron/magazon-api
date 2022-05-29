@@ -1,7 +1,4 @@
 import mongoose from 'mongoose'
-import config from '../config'
-
-mongoose.connect(config.connectionString)
 
 import Wishlist from '../models/wishilist-models'
 class WishlistService {
@@ -16,7 +13,7 @@ class WishlistService {
         const filter = {}
 
         const wishlists = await Wishlist.find(filter).sort(sort).skip(skip).limit(perPage)
-            .populate([{path: 'client', select: ['name', 'email'] }, {path: 'products', select: ['title', 'author', 'description'] }])
+            .populate([{path: 'client', select: ['name', 'email', 'cpf'] }, {path: 'products', select: ['title', 'author', 'description', 'price'] }])
         const total = await Wishlist.countDocuments()
         const pages = Math.ceil(total / perPage)
         const count = wishlists?.length ?? 0
@@ -27,7 +24,7 @@ class WishlistService {
         if (!mongoose.Types.ObjectId.isValid(id)) return false;
         try {
             const wishlist = await Wishlist.findOne({ _id: id })
-                .populate([{path: 'client', select: ['name', 'email'] }, {path: 'products', select: ['title', 'author', 'description'] }])
+                .populate([{path: 'client', select: ['name', 'email', 'cpf'] }, {path: 'products', select: ['title', 'author', 'description', 'price'] }])
             return wishlist
         } catch (error) {
             return res.status(500).json(error)
@@ -36,15 +33,15 @@ class WishlistService {
 
     async searchWishlistByClientId(idClient) {
         if (!mongoose.Types.ObjectId.isValid(idClient)) return false;
-        const wishlist = await Wishlist.findOne({ client: { _id: idClient } })
-            .populate([{path: 'client', select: ['name', 'email'] }, {path: 'products', select: ['title', 'author', 'description'] }])
+        const wishlist = await Wishlist.find({ client: { _id: idClient } })
+            .populate([{path: 'client', select: ['name', 'email', 'cpf'] }, {path: 'products', select: ['title', 'author', 'description', 'price'] }])
         return wishlist
     }
 
     async searchWishlistByProductId(productId) {
         if (!mongoose.Types.ObjectId.isValid(productId)) return false;
-        const wishlist = await Wishlist.findOne({ products: { _id: productId } })
-            .populate([{path: 'client', select: ['name', 'email'] }, {path: 'products', select: ['title', 'author', 'description'] }])
+        const wishlist = await Wishlist.find({ products: { _id: productId } })
+            .populate([{path: 'client', select: ['name', 'email', 'cpf'] }, {path: 'products', select: ['title', 'author', 'description', 'price'] }])
         return wishlist
     }
     

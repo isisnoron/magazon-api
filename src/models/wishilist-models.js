@@ -22,7 +22,7 @@ const schema = new Schema({
     },
     products: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Produto',
+        ref: 'Product',
         required: true,
         trim: true,
         validate: v => v == null || v.length > 0

@@ -1,15 +1,9 @@
-import express from "express"
-
-import swaggerUi  from "swagger-ui-express"
-
-import swaggerDocument from "./swagger.json"
-
+import express from 'express'
+import swaggerUi  from 'swagger-ui-express'
+import swaggerDocument from './swagger.json'
 import bodyParser from 'body-parser'
-
-import router from "./src/routes"
-
+import router from './src/routes'
 import mongoose from "mongoose"
-
 import env from './src/config/env'
 
 const app = express()

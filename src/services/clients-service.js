@@ -1,7 +1,3 @@
-import res from 'express/lib/response'
-import mongoose from 'mongoose'
-import { paginate } from 'mongoose-paginate'
-import config from '../config'
 import Client from '../models/clients-models'
 import Wishlist from '../models/wishilist-models'
 

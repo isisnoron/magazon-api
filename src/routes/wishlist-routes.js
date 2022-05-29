@@ -6,7 +6,7 @@ const wishlistController = new WishlistController()
 
 router.get('/client/id/:_id', (req, res) => wishlistController.searchWishlistByClientId(req, res))
 
-router.get('/products/id/:_id', (req, res) => wishlistController.searchWishlistByProductId(req, res))
+router.get('/product/id/:_id', (req, res) => wishlistController.searchWishlistByProductId(req, res))
 
 router.put('/:id', (req, res) => wishlistController.updateWishlist(req, res) )
 
