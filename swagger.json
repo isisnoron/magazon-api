@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
       "version": "1.0.0",
-      "title": "Wishlist Magazon",
+      "title": "Wishlist Magazon - Bookstore",
       "description": "Manage customers, books and save favorite books by customer",
       "license": {
         "name": "MIT",
@@ -610,7 +610,7 @@
                     }
                 }
             },
-            "/wishlist/products/{id}": {
+            "/wishlist/product/{id}": {
                 "get": {
                     "parameters": [
                         {
@@ -689,9 +689,6 @@
         },
         "ClientRequest": {
             "properties": {
-                "_id": {
-                "type": "object id"
-                },
                 "name": {
                     "type": "string"
                 },
