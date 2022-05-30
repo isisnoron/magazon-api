@@ -23,7 +23,7 @@ app.use('/', router)
 
 mongoose.connect(env.MONGO_DB_URI).then(() => {
 
-    app.listen(3000, () => {
+    app.listen(process.env.PORT || 3000, () => {
         console.log('Executando na porta 3000...')
     })
 
