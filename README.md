@@ -2,7 +2,7 @@
   Wishlist Magazon Bookstore - API com Node.js
 </h1>
 
-Desafio final proposto pela 4ª Edição do LuizaCode, onde devemos desenvolver uma API Rest para gerenciamento de lista de desejos do e-commerce da livraria Bookstore. A documentação poderá ser acessada através do link [Magazon Bookstore API]
+Desafio final proposto pela 4ª Edição do LuizaCode, onde devemos desenvolver uma API Rest para gerenciamento de lista de desejos do e-commerce da livraria Bookstore.
 
 
 ## Índice
@@ -58,7 +58,7 @@ Prontinho! Já pode usar o projeto. Dentro do banco de dados _bookstore_, temos 
   - wishlists
 
 Você pode utilizar o [postman](https://www.postman.com/downloads/) para inserir clientes, produtos e wishlists através do método POST. Assim, as coleções serão automaticamente criadas no banco de dados.
-Você pode conferir os requisitos e os endpoints através da [documentação](link do deploy aqui).  
+Você pode conferir os requisitos e os endpoints através da documentação, utilizando o endpoint /swagger.  
  
 ## 3.  Endpoints
 Conforme foi estabelecido no desenvolvimento do desafio, a API possui os seguintes endpoints:
@@ -91,6 +91,10 @@ Conforme foi estabelecido no desenvolvimento do desafio, a API possui os seguint
 * `POST /wishlist`
 * `PUT /wishlist/:_id`
 * `DELETE /wishlist/:_id`
+
+
+### 3.4 `/swagger`
+Documentação da API. 
 
 ## 4. Tecnologias utilizadas
 
